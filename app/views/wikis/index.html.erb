@@ -5,6 +5,8 @@
     <%= render partial: 'wikis/wiki', collection: @wikis %>
   </div>
   <div class="col-md-8 mtl">
-    <%= render partial: 'wikis/form', locals: { wiki: @wiki } %>
+    <% if policy(@wiki).create? %>
+      <%= render partial: 'wikis/form', locals: { wiki: @wiki } %>
+    <% end %>
   </div>
 </div>
