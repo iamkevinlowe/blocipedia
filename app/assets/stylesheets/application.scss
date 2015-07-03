@@ -17,8 +17,14 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+.nav {
+  margin-top: 9px;
+}
 .plan-box {
   padding: 25px;
   border: 1px solid #ddd;
   border-radius: 4px;
+}
+.mtl {
+  margin-top: 20px;
 }
