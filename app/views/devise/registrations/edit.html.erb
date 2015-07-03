@@ -51,7 +51,9 @@
       <%= link_to "Downgrade to standard",
         user_path(current_user,
         user: { role: 'standard' }),
-        method: :put, class: 'btn btn-success' %>
+        method: :put,
+        class: 'btn btn-success',
+        data: { confirm: 'All of your private wikis will become public if you downgrade.' }  %>
     <% else %>
       <p>
         You must be an adminstrator.

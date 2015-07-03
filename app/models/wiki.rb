@@ -3,6 +3,18 @@ class Wiki < ActiveRecord::Base
 
   after_initialize :default_public
 
+  scope :visible_to, -> (user) { user && (user.premium? || user.admin?) ? all : where(private: false) }
+
+  def private_icon
+    if private
+      "<span class='glyphicon glyphicon-lock'
+      style='color: red; font-size: 0.6em;'>
+      </span>"
+    else
+      ""
+    end
+  end
+
   private
 
   def default_public

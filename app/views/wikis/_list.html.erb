@@ -7,6 +7,7 @@
 <div class="row mtl">
   <div class="col-md-8">
     <% if policy(wiki).create? %>
+      <h4>Add a Wiki</h4>
       <%= render partial: 'wikis/form', locals: { wiki: wiki } %>
     <% end %>
   </div>

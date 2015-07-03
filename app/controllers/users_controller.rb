@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   def show
-    @wikis = current_user.wikis.paginate(page: params[:page], per_page: 10)
+    @wikis = private_check.paginate(page: params[:page], per_page: 10)
     @wiki = Wiki.new
   end
 
@@ -12,6 +12,12 @@ class UsersController < ApplicationController
       flash[:error] = "There was an error updating user information."
       redirect_to current_user
     end
+  end
+
+  def private_check
+    wikis = current_user.wikis
+    wikis.where(private: true).update_all(private: false) if current_user.standard?
+    wikis
   end
 
   private
