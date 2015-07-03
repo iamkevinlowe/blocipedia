@@ -1,0 +1,13 @@
+<div class="row mtl">
+  <div class="col-md-8">
+    <%= render partial: 'wikis/wiki', collection: wikis %>
+    <%= will_paginate wikis %>
+  </div>
+</div>
+<div class="row mtl">
+  <div class="col-md-8">
+    <% if policy(wiki).create? %>
+      <%= render partial: 'wikis/form', locals: { wiki: wiki } %>
+    <% end %>
+  </div>
+</div>

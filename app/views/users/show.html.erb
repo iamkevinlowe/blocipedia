@@ -1,10 +1,3 @@
 <h1 class="text-center"><%= current_user.name %>'s Wikis</h1>
 
-<div class="row">
-  <div class="col-md-8">
-    <%= render partial: 'wikis/wiki', collection: @wikis %>
-  </div>
-  <div class="col-md-8 mtl">
-    <%= render partial: 'wikis/form', locals: { wiki: @wiki } %>
-  </div>
-</div>
+<%= render partial: 'wikis/list', locals: { wikis: @wikis, wiki: @wiki, stripe_btn_data: @stripe_btn_data } %>

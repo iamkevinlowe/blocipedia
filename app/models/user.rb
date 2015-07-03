@@ -15,6 +15,14 @@ class User < ActiveRecord::Base
     role == 'premium'
   end
 
+  def standard?
+    role == 'standard'
+  end
+
+  def upgrade_role
+    self.update_attributes!(role: 'premium')
+  end
+
   private
 
   def default_role
