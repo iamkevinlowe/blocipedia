@@ -9,7 +9,7 @@ class Wiki < ActiveRecord::Base
     if private
       "<span class='glyphicon glyphicon-lock'
       style='color: red; font-size: 0.6em;'>
-      </span>"
+      </span>".html_safe
     else
       ""
     end

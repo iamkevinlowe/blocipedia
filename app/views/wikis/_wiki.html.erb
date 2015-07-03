@@ -1,8 +1,8 @@
 <div class="media">
   <div class="media-body">
     <h4>
-      <%= wiki.private_icon.html_safe %>
-      <%= link_to wiki.title, wiki %>
+      <%= wiki.private_icon %>
+      <%= link_to (markdown_to_html wiki.title), wiki %>
     </h4>
     <small>
       Created by: <%= wiki.user ? wiki.user.name : "Unknown" %>
