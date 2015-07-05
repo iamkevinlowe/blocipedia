@@ -1,11 +1,12 @@
 class WikisController < ApplicationController
   def index
-    @wikis = Wiki.visible_to(current_user).paginate(page: params[:page], per_page: 10)
+    @wikis = policy_scope(Wiki).paginate(page: params[:page], per_page: 10)
     @wiki = Wiki.new
   end
 
   def show
     @wiki = Wiki.find(params[:id])
+    @collaborators = Collaborator.where(wiki_id: @wiki.id)
     authorize @wiki
   end
 
@@ -25,6 +26,9 @@ class WikisController < ApplicationController
 
   def edit
     @wiki = Wiki.find(params[:id])
+    @users = users_for_form_select
+    @collaborator = Collaborator.new
+    @collaborators = collaborators_for_form_select
   end
 
   def update
@@ -52,7 +56,19 @@ class WikisController < ApplicationController
 
   private
 
+  def users_for_form_select
+    exclude = @wiki.users.pluck(:id)
+    exclude << @wiki.user.id
+    users = User.where.not(id: exclude).pluck(:name, :id)
+  end
+
+  def collaborators_for_form_select
+    collaborators = []
+    @wiki.collaborators.each{|collaborator| collaborators << [collaborator.user.name, collaborator.user.id]}
+    collaborators
+  end
+
   def wiki_params
-    params.require(:wiki).permit(:title, :body, :private)
+    params.require(:wiki).permit(:title, :body, :private, collaborator_attributes: [:id, :user_id])
   end
 end

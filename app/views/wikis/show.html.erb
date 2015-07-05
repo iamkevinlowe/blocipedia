@@ -9,7 +9,10 @@
       </div>
       <div class="panel-body">
         <p><%= markdown_to_html @wiki.body %></p>
-        <small class="pull-right">Created by: <%= @wiki.user ? @wiki.user.name : "Unknown" %></small>
+        <small class="pull-right">Created by: <%= @wiki.user ? @wiki.user.name : "Unknown" %></small><br>
+        <% if @collaborators.any? %>
+          <small class="pull-right text-right">Collaborators: <%= render partial: 'collaborators/collaborator', collection: @collaborators %></small>
+        <% end %>
       </div>
     </div>
   </div>

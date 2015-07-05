@@ -1,6 +1,10 @@
 class UsersController < ApplicationController
   def show
-    @wikis = private_check.paginate(page: params[:page], per_page: 10)
+    private_check
+    @wikis = policy_scope(Wiki).select{|wiki|
+      (wiki.user_id == current_user.id) ||
+      (wiki.users.include?(current_user))
+      }.paginate(page: params[:page], per_page: 10)
     @wiki = Wiki.new
   end
 
@@ -15,9 +19,7 @@ class UsersController < ApplicationController
   end
 
   def private_check
-    wikis = current_user.wikis
-    wikis.where(private: true).update_all(private: false) if current_user.standard?
-    wikis
+    Wiki.where(user_id: current_user.id).where(private: true).update_all(private: false) if current_user.standard?
   end
 
   private
