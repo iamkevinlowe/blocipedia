@@ -1,0 +1,47 @@
+%h2
+  Edit
+  = resource_name.to_s.humanize
+
+.row
+  .col-md-8
+
+    %h3 Edit personal information
+    = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+      = devise_error_messages!
+
+      .form-group
+        = f.text_field :name, autofocus: true, class: 'form-control', placeholder: 'Enter name'
+
+      .form-group
+        = f.email_field :email, class: 'form-control', placeholder: 'Enter email'
+
+      - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+        %div
+          Currently waiting confirmation for:
+          = resource.unconfirmed_email
+
+      .form-group
+        = f.password_field :password, autocomplete: "off", class: 'form-control', placeholder: 'Enter new password (leave blank if you don\'t want to change it)'
+
+      .form-group
+        = f.password_field :password_confirmation, autocomplete: "off", class: 'form-control', placeholder: 'Enter new password confirmation'
+
+      .form-group
+        = f.password_field :current_password, autocomplete: "off", class: 'form-control', placeholder: 'Enter password (we need your current password to confirm your changes)'
+
+      .form-group
+        = f.submit "Update", class: 'btn btn-success'
+
+    %h3 Change account type
+    - if current_user.standard?
+      = form_tag charges_path do
+        %h4 Upgrade to premium!
+        = stripe_script
+    - elsif current_user.premium?
+      = link_to "Downgrade to standard", user_path(current_user, user: { role: 'standard' }), method: :put, class: 'btn btn-success', data: { confirm: 'All of your private wikis will become public if you downgrade.' }
+    - else
+      %p You must be an administrator.
+
+    %h3 Cancel my account
+    .form-group
+      = button_to "Cancel my account", registration_path(resource_name), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :delete

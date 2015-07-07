@@ -1,0 +1,8 @@
+.media
+  .media-body
+    %h4
+      = private_icon wiki
+      = link_to (markdown_to_html wiki.title), wiki
+    %small
+      Created by:
+      = wiki.user ? wiki.user.name : "Unknown"

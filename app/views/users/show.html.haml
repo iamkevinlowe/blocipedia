@@ -1,0 +1,5 @@
+%h1.text-center
+  = current_user.name
+  's wikis
+
+= render partial: 'wikis/list', locals: { wikis: @wikis, wiki: @wiki }

@@ -1,0 +1,19 @@
+%h1.text-center Blocipedia: Social, Markdown Wikis
+.jumbotron.text-center
+  %h2 Create and share Markdown Wikis
+  = link_to "Sign Up", new_user_registration_path, class: 'btn btn-default'
+.row.mtl
+  .col-md-4.col-md-offset-2
+    .media
+      .media-left
+        %a.media-object.plan-box{ href: '#' } Free
+      .media-body
+        %h4 Free Plan
+        %p Create as many public wikis as you want!
+  .col-md-4
+    .media
+      .media-left
+        %a.media-object.plan-box{ href: '#' } Premium
+      .media-body
+        %h4 Premium Plan
+        %p Create private wikis!

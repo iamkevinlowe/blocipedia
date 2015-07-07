@@ -5,7 +5,7 @@ class WikisController < ApplicationController
   end
 
   def show
-    @wiki = Wiki.find(params[:id])
+    @wiki = Wiki.friendly.find(params[:id])
     @collaborators = Collaborator.where(wiki_id: @wiki.id)
     authorize @wiki
   end
@@ -25,14 +25,14 @@ class WikisController < ApplicationController
   end
 
   def edit
-    @wiki = Wiki.find(params[:id])
+    @wiki = Wiki.friendly.find(params[:id])
     @users = users_for_form_select
     @collaborator = Collaborator.new
     @collaborators = collaborators_for_form_select
   end
 
   def update
-    @wiki = Wiki.find(params[:id])
+    @wiki = Wiki.friendly.find(params[:id])
     if @wiki.update_attributes(wiki_params)
       flash[:notice] = "\"#{@wiki.title}\" was updated successfully."
       redirect_to @wiki
@@ -43,7 +43,7 @@ class WikisController < ApplicationController
   end
 
   def destroy
-    @wiki = Wiki.find(params[:id])
+    @wiki = Wiki.friendly.find(params[:id])
     if @wiki.delete
       flash[:notice] = "\"#{@wiki.title}\" was deleted successfully."
       @wiki = Wiki.new
