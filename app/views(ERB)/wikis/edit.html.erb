@@ -1,0 +1,31 @@
+<h1 class="text-center">Edit Wiki</h1>
+
+<div class="row">
+  <div class="col-md-8">
+    <% if policy(@wiki).update? %>
+      <%= render partial: 'wikis/form', locals: { wiki: @wiki } %>
+    <% end %>
+  </div>
+  <div class="col-md-4">
+    <%= form_for @collaborator do |f| -%>
+      <div class="form-group">
+        <% if @wiki.private && @users.any? %>
+          <h4>Add a collaborator</h4>
+          <%= f.select :user_id, @users %>
+          <%= f.hidden_field :wiki_id, value: @wiki.id %>
+          <%= f.submit "Add", class: 'btn btn-success pull-right' %>
+        <% end %>
+      </div>
+    <% end -%>
+    <%= form_for @collaborator, url: collaborator_path, method: :delete do |f| -%>
+      <div class="form-group">
+        <% if @wiki.private && @wiki.collaborators.any? %>
+          <h4>Remove a collaborator</h4>
+          <%= f.select :user_id, @collaborators %>
+          <%= f.hidden_field :wiki_id, value: @wiki.id %>
+          <%= f.submit "Remove", class: 'btn btn-warning pull-right' %>
+        <% end %>
+      </div>
+    <% end -%>
+  </div>
+</div>

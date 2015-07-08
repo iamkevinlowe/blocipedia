@@ -1,0 +1,21 @@
+%h1.text-center Edit Wiki
+
+.row
+  .col-md-8
+    - if policy(@wiki).update?
+      = render partial: 'wikis/form', locals: { wiki: @wiki }
+  .col-md-4
+    = form_for @collaborator do |f|
+      .form-group
+        - if @wiki.private && @users.any?
+          %h4 Add a collaborator
+          = f.select :user_id, @users
+          = f.hidden_field :wiki_id, value: @wiki.id
+          = f.submit "Add", class: 'btn btn-success pull-right'
+    = form_for @collaborator, url: collaborator_path, method: :delete do |f|
+      .form_group
+        - if @wiki.private && @wiki.collaborators.any?
+          %h4 Remove a collaborator
+          = f.select :user_id, @collaborators
+          = f.hidden_field :wiki_id, value: @wiki.id
+          = f.submit "Remove", class: 'btn btn-warning pull-right'

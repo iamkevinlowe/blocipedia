@@ -1,11 +1,13 @@
 class UsersController < ApplicationController
   def show
-    @wikis = current_user.wikis.paginate(page: params[:page], per_page: 10)
+    @wikis = Wiki.for_user(current_user).eager_load(:user).paginate(page: params[:page], per_page: 10)
+    # @wikis = policy_scope(Wiki).paginate(page: params[:page], per_page: 10)
     @wiki = Wiki.new
   end
 
   def update
     if current_user.update_attributes(user_params)
+      private_check if user_params[:role] == 'standard'
       flash[:notice] = "User information updated."
       redirect_to current_user
     else
@@ -18,5 +20,9 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :role)
+  end
+
+  def private_check
+    Wiki.where(user_id: current_user.id).where(private: true).update_all(private: false)
   end
 end

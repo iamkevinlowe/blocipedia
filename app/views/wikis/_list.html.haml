@@ -1,0 +1,9 @@
+.row.mtl
+  .col-md-8
+    = render partial: 'wikis/wiki', collection: wikis
+    = will_paginate wikis
+.row.mtl
+  .col-md-8
+    - if policy(wiki).create?
+      %h4 Add a Wiki
+      = render partial: 'wikis/form', locals: { wiki: wiki }
