@@ -36,7 +36,7 @@
     - if current_user.standard?
       = form_tag charges_path do
         %h4 Upgrade to premium!
-        = stripe_script
+        %script{class: 'stripe-button', src: 'https://checkout.stripe.com/checkout.js', data: {key: @stripe_btn_data[:key], amount: @stripe_btn_data[:amount], description: @stripe_btn_data[:description]}}
     - elsif current_user.premium?
       = link_to "Downgrade to standard", user_path(current_user, user: { role: 'standard' }), method: :put, class: 'btn btn-success', data: { confirm: 'All of your private wikis will become public if you downgrade.' }
     - else

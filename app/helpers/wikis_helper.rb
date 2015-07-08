@@ -8,13 +8,4 @@ module WikisHelper
       ""
     end
   end
-
-  def stripe_script
-    "<script class='stripe-button' 
-    src='https://checkout.stripe.com/checkout.js'
-    data-key='<%= @stripe_btn_data[:key] %>'
-    data-amount=<%= @stripe_btn_data[:amount] %>
-    data-description='<%= @stripe_btn_data[:description] %>' >
-    </script>".html_safe
-  end
 end

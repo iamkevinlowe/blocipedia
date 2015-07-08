@@ -21,7 +21,21 @@ class User < ActiveRecord::Base
     role == 'standard'
   end
 
-  def upgrade_role
+  def upgrade(stripeToken)
+    # Creates a Stripe Customer object, for associating with the charge
+    customer = Stripe::Customer.create(
+      email: self.email,
+      card: stripeToken
+    )
+
+    # Where the real magic happens
+    charge = Stripe::Charge.create(
+      customer: customer.id, # Note -- this is Not the user_id in your app
+      amount: Amount.default,
+      description: "BigMoney Membership - #{self.name || self.email}",
+      currency: 'usd'
+    )
+
     self.update_attributes!(role: 'premium')
   end
 

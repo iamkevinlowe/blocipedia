@@ -1,9 +1,6 @@
 class UsersController < ApplicationController
   def show
-    @wikis = policy_scope(Wiki).select{|wiki|
-      (wiki.user_id == current_user.id) ||
-      (wiki.users.include?(current_user))
-      }.paginate(page: params[:page], per_page: 10)
+    @wikis = Wiki.for_user(current_user).eager_load(:user).paginate(page: params[:page], per_page: 10)
     # @wikis = policy_scope(Wiki).paginate(page: params[:page], per_page: 10)
     @wiki = Wiki.new
   end

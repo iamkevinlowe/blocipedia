@@ -8,26 +8,13 @@ class WikiPolicy < ApplicationPolicy
     end
 
     def resolve
-      wikis = []
-      if user &&user.admin?
-        wikis = scope.all
-      elsif user && user.premium?
-        all_wikis = scope.all
-        all_wikis.each do |wiki|
-          if !wiki.private? || wiki.user == user || wiki.users.include?(user)
-            wikis << wiki
-          end
-        end
+      if user && user.admin?
+        scope
+      elsif user.present?
+        Wiki.for_policy_scope(user)
       else
-        all_wikis = scope.all
-        wikis = []
-        all_wikis.each do |wiki|
-          if !wiki.private? || wiki.users.include?(user)
-            wikis << wiki
-          end
-        end
+        Wiki.visible_to(user)
       end
-      wikis
     end
   end
 
