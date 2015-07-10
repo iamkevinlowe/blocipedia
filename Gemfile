@@ -12,7 +12,7 @@ gem 'will_paginate', '~> 3.0.5'
 gem 'redcarpet'
 gem 'haml'
 gem 'friendly_id', '~> 5.1.0'
-gem 'epiceditor', '~> 0.2.2'
+gem 'epic-editor-rails'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
